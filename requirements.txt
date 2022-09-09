@@ -7,3 +7,6 @@ django-redis==5.2.0
 djangorestframework==3.13.1
 markdown==3.4.1
 django-filter==22.1
+
+# swagger
+drf-yasg2==1.19.4

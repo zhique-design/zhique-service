@@ -13,9 +13,26 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf import settings
+from django.conf.urls.static import static
 # from django.contrib import admin
-from django.urls import path
+from django.urls import path, re_path, include
+from drf_yasg2 import openapi
+from drf_yasg2.views import get_schema_view
 
+from ZhiQue import permissions
+
+schema_view = get_schema_view(
+    openapi.Info(
+        title='知雀',
+        default_version='v1',
+        description='知雀接口文档',
+    ),
+    public=True,
+    permission_classes=(permissions.AllowAny,),
+)
 urlpatterns = [
-    #    path('admin/', admin.site.urls),
-]
+                  path('swagger-ui/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+                  #    path('admin/', admin.site.urls),
+                  re_path(r'^(?P<version>(v1|v2))/account/', include('account.urls', namespace='account')),
+              ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

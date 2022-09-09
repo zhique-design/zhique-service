@@ -3,6 +3,7 @@ import os
 from urllib import parse
 
 from django.contrib import auth
+from django.contrib.auth import logout
 from django.core.cache import cache
 from django.shortcuts import render
 from django.utils.decorators import method_decorator
@@ -56,6 +57,29 @@ class LoginView(FormView):
             'redirect_uri': get_redirect_uri(self.request)
         })
         return f'{authorize_uri}?{data}'
+
+
+class LogoutView(RedirectView):
+    """退出登录"""
+
+    @method_decorator(never_cache)
+    def dispatch(self, request, *args, **kwargs):
+        return super(LogoutView, self).dispatch(request, *args, **kwargs)
+
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        user_token_cache_key = f'oauth:user:id:{user.id}:token'
+        if cache.ttl(user_token_cache_key) != 0:
+            token = cache.get(user_token_cache_key)
+            cache.delete(user_token_cache_key)
+            token_user_cache_key = f'oauth:token:{token}:user:id'
+            if cache.ttl(token_user_cache_key) != 0:
+                cache.delete(token_user_cache_key)
+        logout(request)
+        return super(LogoutView, self).get(request, *args, **kwargs)
+
+    def get_redirect_url(self, *args, **kwargs):
+        return get_redirect_uri(self.request)
 
 
 def generate_token():

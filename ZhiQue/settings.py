@@ -120,6 +120,13 @@ AUTH_PASSWORD_VALIDATORS = [
 
 AUTH_USER_MODEL = 'account.User'
 
+LOGIN_URL = '/oauth/login'
+LOGOUT_URL = '/oauth/logout'
+
+AUTHENTICATION_BACKENDS = (
+    'oauth.authentication.EmailOrUsernameModelBackend',
+)
+
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
@@ -134,7 +141,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
 
 # Settings for REST framework are all namespaced in the REST_FRAMEWORK setting.
 # https://www.django-rest-framework.org/api-guide/settings/
@@ -147,7 +158,7 @@ REST_FRAMEWORK = {
     'ALLOWED_VERSIONS': ['v1', 'v2'],
     'DEFAULT_PAGINATION_CLASS': 'ZhiQue.pagination.Pagination',
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        # 'oauth.authentication.TokenAuthentication',
+        'oauth.authentication.TokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
     ),
     'DEFAULT_FILTER_BACKENDS': [

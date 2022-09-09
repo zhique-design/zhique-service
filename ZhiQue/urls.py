@@ -21,6 +21,7 @@ from drf_yasg2 import openapi
 from drf_yasg2.views import get_schema_view
 
 from ZhiQue import permissions
+from oauth.views import LoginView, AuthorizeView
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -35,4 +36,6 @@ urlpatterns = [
                   path('swagger-ui/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
                   #    path('admin/', admin.site.urls),
                   re_path(r'^(?P<version>(v1|v2))/account/', include('account.urls', namespace='account')),
+                  re_path(r'^oauth/login$', LoginView.as_view(), name='login'),
+                  re_path(r'^oauth/(?P<authorize_type>[a-z]+)/authorize/$', AuthorizeView.as_view(), name='authorize'),
               ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

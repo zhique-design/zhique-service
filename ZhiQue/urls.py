@@ -39,4 +39,5 @@ urlpatterns = [
                   re_path(r'^oauth/login$', LoginView.as_view(), name='login'),
                   re_path(r'^oauth/logout$', LogoutView.as_view(), name='logout'),
                   re_path(r'^oauth/(?P<authorize_type>[a-z]+)/authorize/$', AuthorizeView.as_view(), name='authorize'),
+                  re_path(r'^(?P<version>(v1|v2))/attachment/', include('attachment.urls', namespace='attachment')),
               ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

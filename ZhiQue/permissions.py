@@ -11,6 +11,13 @@ class IsAdminUser(BasePermission):
         return bool(user and user.is_active and user.is_superuser)
 
 
+class IsAuthenticated(BasePermission):
+    """允许登录用户访问"""
+    def has_permission(self, request, view):
+        user = request.user
+        return bool(user and user.is_active and user.is_authenticated)
+
+
 class AllowAny(BasePermission):
     """允许任何人访问"""
 

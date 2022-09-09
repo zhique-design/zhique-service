@@ -16,7 +16,7 @@ class BlobField(models.Field):
 
 class Attachment(BaseModelMixin):
     file_id = models.UUIDField(auto_created=True, default=uuid.uuid4, editable=False)
-    file_name = models.CharField('文件名', max_length=200)
+    file_name = models.CharField('文件名', max_length=200, unique=True)
     mime_type = models.CharField('MIME类型', max_length=100)
     file_size = models.PositiveIntegerField('文件长度')
     blob = BlobField('文件内容')

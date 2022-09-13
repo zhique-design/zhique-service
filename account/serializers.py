@@ -5,11 +5,6 @@ from rest_framework import serializers
 
 User = get_user_model()
 
-LOGIN_TYPE = (
-    ('account', '账户密码'),
-    ('email', '邮箱验证码')
-)
-
 
 class UserSerializer(serializers.ModelSerializer):
     """用户模型列化"""

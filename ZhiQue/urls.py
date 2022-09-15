@@ -36,6 +36,7 @@ urlpatterns = [
                   path('swagger-ui/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
                   #    path('admin/', admin.site.urls),
                   re_path(r'^(?P<version>(v1|v2))/account/', include('account.urls', namespace='account')),
+                  re_path(r'^(?P<version>(v1|v2))/blog/', include('blog.urls', namespace='blog')),
                   re_path(r'^oauth/login$', LoginView.as_view(), name='login'),
                   re_path(r'^oauth/logout$', LogoutView.as_view(), name='logout'),
                   re_path(r'^oauth/(?P<authorize_type>[a-z]+)/authorize/$', AuthorizeView.as_view(), name='authorize'),

@@ -36,11 +36,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'drf_yasg2',
+    'corsheaders',
     'account.apps.AccountConfig',
     'attachment.apps.AttachmentConfig',
+    'blog.apps.BlogConfig'
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -167,6 +170,12 @@ REST_FRAMEWORK = {
         'django_filters.rest_framework.DjangoFilterBackend'
     ],
 }
+
+FRONT_BASE_URL = os.environ.get('ZHIQUE_FRONT_BASE_URL')
+
+CORS_ORIGIN_WHITELIST = [
+    FRONT_BASE_URL
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

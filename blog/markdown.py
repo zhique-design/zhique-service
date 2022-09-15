@@ -33,9 +33,7 @@ class ZhiQueMarkdownRenderer(HTMLRenderer):
 
     def block_code(self, text, lang=None):
         # renderer has an options
-        inline_styles = self.options.get('inlinestyles')
-        linenos = self.options.get('linenos')
-        return block_code(text, lang, inline_styles, linenos)
+        return block_code(text, lang)
 
     def autolink(self, link, is_email=False):
         text = link = escape(link)
@@ -59,9 +57,9 @@ class ZhiQueMarkdownRenderer(HTMLRenderer):
 
 
 def markdown_renderer(content):
-    renderer = ZhiQueMarkdownRenderer(inlinestyles=False)
+    renderer = ZhiQueMarkdownRenderer()
 
-    mdp = Markdown(escape=True, renderer=renderer)
+    mdp = Markdown(renderer=renderer)
     return mark_safe(mdp(content))
 
 

@@ -46,6 +46,7 @@ class AbstractUser(AbstractBaseUser, PermissionsMixin):
                                 })
     email = models.EmailField('电子邮件地址', unique=True, blank=False, null=False)
     is_active = models.BooleanField('有效', default=False, help_text='指明用户是否被认为是活跃的。以反选代替删除帐号。')
+    is_staff = models.BooleanField('员工', default=True)
     date_joined = models.DateTimeField('加入日期', default=timezone.now)
 
     objects = UserManager()

@@ -15,12 +15,13 @@ Including another URLconf
 """
 from django.conf import settings
 from django.conf.urls.static import static
-# from django.contrib import admin
+from django.contrib import admin
 from django.urls import path, re_path, include
 from drf_yasg2 import openapi
 from drf_yasg2.views import get_schema_view
 
 from ZhiQue import permissions
+from ZhiQue.admin_site import admin_site
 from oauth.views import LoginView, AuthorizeView, LogoutView
 
 schema_view = get_schema_view(
@@ -34,7 +35,7 @@ schema_view = get_schema_view(
 )
 urlpatterns = [
                   path('swagger-ui/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-                  #    path('admin/', admin.site.urls),
+                  path('admin/', admin_site.urls),
                   re_path(r'^(?P<version>(v1|v2))/account/', include('account.urls', namespace='account')),
                   re_path(r'^(?P<version>(v1|v2))/blog/', include('blog.urls', namespace='blog')),
                   re_path(r'^oauth/login$', LoginView.as_view(), name='login'),

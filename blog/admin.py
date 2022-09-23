@@ -3,4 +3,10 @@ from django.contrib import admin
 
 # Register your models here.
 class CategoryAdmin(admin.ModelAdmin):
-    exclude = ('slug', 'last_mod_time', 'created_time')
+    list_display = ('id', 'name')
+    list_display_links = ('name',)
+
+
+class TagAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name')
+    list_display_links = ('name',)

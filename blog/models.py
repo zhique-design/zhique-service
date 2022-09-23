@@ -20,7 +20,7 @@ class BaseModel(BaseModelMixin):
 
 class Category(BaseModel):
     name = models.CharField('名称', max_length=30, unique=True)
-    parent_category = models.ForeignKey('self', verbose_name="父级分类", null=True, on_delete=models.SET_NULL)
+    parent_category = models.ForeignKey('self', verbose_name="父级分类", blank=True, null=True, on_delete=models.SET_NULL)
 
     class Meta:
         ordering = ['-is_top', 'name']
@@ -61,7 +61,7 @@ class Category(BaseModel):
 class Tag(BaseModel):
     tag_color_validator = TagColorValidator()
     name = models.CharField('名称', unique=True, max_length=30)
-    color = models.CharField('颜色', max_length=10, default=None, validators=[tag_color_validator])
+    color = models.CharField('颜色', max_length=10, default=None, blank=True, validators=[tag_color_validator])
 
     class Meta:
         verbose_name = '标签'

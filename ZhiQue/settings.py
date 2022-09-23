@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'django_filters',
     'account.apps.AccountConfig',
     'attachment.apps.AttachmentConfig',
-    'blog.apps.BlogConfig'
+    'blog.apps.BlogConfig',
+    'xuzhao_markdown'
 ]
 
 MIDDLEWARE = [

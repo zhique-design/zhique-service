@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'account.apps.AccountConfig',
     'attachment.apps.AttachmentConfig',
     'blog.apps.BlogConfig',
-    'xuzhao_markdown'
+    'zhique_markdown'
 ]
 
 MIDDLEWARE = [
@@ -184,3 +184,5 @@ CORS_ORIGIN_WHITELIST = [
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+MARKDOWN_UP_IMAGE_URL = '/v1/attachment/upload'

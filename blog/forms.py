@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 from django import forms
-from xuzhao_markdown.widgets import AdminMarkdownWidget
+from zhique_markdown.widgets import AdminMarkdownWidget
 
 from .models import Article
 

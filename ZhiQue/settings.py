@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'account.apps.AccountConfig',
     'attachment.apps.AttachmentConfig',
     'blog.apps.BlogConfig',
+    'oauth.apps.OauthConfig',
     'zhique_markdown'
 ]
 
@@ -98,13 +99,12 @@ DATABASES = {
 CACHES = {
     'default': {
         'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': 'redis://{url}:{port}/0'.format(
+        'LOCATION': 'redis://{url}:{port}'.format(
             url=os.environ.get('ZHIQUE_REDIS_HOST'),
             port=os.environ.get('ZHIQUE_REDIS_PORT')
         ),
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
-            "PASSWORD": '',
         },
     },
 }

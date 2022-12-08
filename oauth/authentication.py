@@ -1,9 +1,5 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-__title__ = ''
-__author__ = 'xuzhao'
-__email__ = 'xuzhao@zhique.design'
-
 from django.contrib.auth import get_user_model
 from django.contrib.auth.backends import ModelBackend
 from django.core.cache import cache
@@ -72,5 +68,3 @@ class TokenAuthentication(BaseTokenAuthentication):
             raise exceptions.AuthenticationFailed('token错误')
         except Http404:
             raise exceptions.AuthenticationFailed('token无效')
-
-

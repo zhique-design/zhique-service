@@ -51,9 +51,9 @@ class DataFormatMiddleware(MiddlewareMixin):
         if request.method == 'POST':
             if request.POST:
                 request.POST = underline_dict(request.POST)
-            if hasattr(request, 'content_type') and request.content_type == 'application/json':
-                request_data = underline_dict(json.loads(request.body.decode('utf-8')))
-                request._body = json.dumps(request_data).encode('utf-8')
+        if hasattr(request, 'content_type') and request.content_type == 'application/json':
+            request_data = underline_dict(json.loads(request.body.decode('utf-8')))
+            request._body = json.dumps(request_data).encode('utf-8')
 
     @staticmethod
     def process_response(_, response):

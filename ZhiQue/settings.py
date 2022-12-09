@@ -99,15 +99,12 @@ DATABASES = {
 CACHES = {
     'default': {
         'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': 'redis://{url}:{port}'.format(
+        'LOCATION': 'redis://{url}:{port}/1'.format(
             url=os.environ.get('ZHIQUE_REDIS_HOST'),
             port=os.environ.get('ZHIQUE_REDIS_PORT')
         ),
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
-            "CONNECTION_POOL_KWARGS": {
-                "max_connections": 100
-           }
         },
     },
 }

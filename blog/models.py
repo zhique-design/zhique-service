@@ -123,4 +123,3 @@ class Article(BaseModel):
     def viewed(self):
         self.views += 1
         self.save(update_fields=['views'])
-        cache.clear()

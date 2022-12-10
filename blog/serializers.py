@@ -43,6 +43,7 @@ class CategorySerializer(serializers.ModelSerializer):
 class CategoryDetailSerializer(serializers.ModelSerializer):
     parent = serializers.SerializerMethodField(read_only=True)
     level = serializers.SerializerMethodField(read_only=True)
+    tree = serializers.SerializerMethodField(read_only=True)
 
     @staticmethod
     def get_parent(obj):
@@ -50,6 +51,10 @@ class CategoryDetailSerializer(serializers.ModelSerializer):
             return None
         serializer = CategoryDetailSerializer(obj.parent_category, read_only=True)
         return serializer.data
+
+    @staticmethod
+    def get_tree(obj):
+        return list(map(lambda t: t.id, obj.get_category_tree()))[::-1]
 
     @staticmethod
     def get_level(obj):

@@ -25,7 +25,7 @@ class CategoryViewSet(mixins.ListModelMixin, mixins.CreateModelMixin, mixins.Upd
         return [permissions.IsAdminUser()]
 
     def get_serializer_class(self):
-        if self.action == 'retrieve':
+        if self.action in ('create', 'retrieve', 'update', 'partial_update'):
             return CategoryDetailSerializer
         return CategorySerializer
 

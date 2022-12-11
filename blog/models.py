@@ -60,7 +60,7 @@ class Category(BaseModel):
 class Tag(BaseModel):
     tag_color_validator = TagColorValidator()
     name = models.CharField('名称', unique=True, max_length=30)
-    color = models.CharField('颜色', max_length=10, default=None, blank=True, validators=[tag_color_validator])
+    color = models.CharField('颜色', max_length=10, default=None, blank=True, null=True, validators=[tag_color_validator])
 
     class Meta:
         verbose_name = '标签'

@@ -11,7 +11,6 @@ from .models import Category, Article, Tag
 
 
 class CategorySerializer(serializers.ModelSerializer):
-
     children = serializers.SerializerMethodField(read_only=True)
     path = serializers.SerializerMethodField(read_only=True)
     level = serializers.SerializerMethodField(read_only=True)
@@ -66,7 +65,6 @@ class CategoryDetailSerializer(serializers.ModelSerializer):
 
 
 class TagSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Tag
         fields = ('id', 'name', 'color')
@@ -95,7 +93,8 @@ class ArticleListSerializer(serializers.ModelSerializer):
 class ArticleDetailSerializer(serializers.ModelSerializer):
     category_id = serializers.UUIDField(write_only=True)
     category = ArticleCategoryField(read_only=True)
-    tags = TagSerializer(read_only=True, many=True)
+    tags = serializers.ListField(write_only=True)
+    tag_list = TagSerializer(source='tags', read_only=True, many=True)
     breadcrumb = serializers.SerializerMethodField(read_only=True)
     prev_article = serializers.JSONField(source='get_prev_article', read_only=True)
     next_article = serializers.JSONField(source='get_next_article', read_only=True)

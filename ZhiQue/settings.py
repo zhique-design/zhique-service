@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'attachment.apps.AttachmentConfig',
     'blog.apps.BlogConfig',
     'oauth.apps.OauthConfig',
+    'console.apps.ConsoleConfig',
     'zhique_markdown'
 ]
 

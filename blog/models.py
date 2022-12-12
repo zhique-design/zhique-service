@@ -1,6 +1,5 @@
 from django.contrib.auth import get_user_model
 from django.db import models
-import uuid
 
 # Create your models here.
 from ZhiQue.mixins import BaseModelMixin
@@ -10,7 +9,6 @@ User = get_user_model()
 
 
 class BaseModel(BaseModelMixin):
-    id = models.UUIDField(primary_key=True, auto_created=True, default=uuid.uuid4, editable=False)
     is_top = models.BooleanField('置顶', default=False)
 
     class Meta:
@@ -19,7 +17,8 @@ class BaseModel(BaseModelMixin):
 
 class Category(BaseModel):
     name = models.CharField('名称', max_length=30, unique=True)
-    parent_category = models.ForeignKey('self', verbose_name="父级分类", blank=True, null=True, on_delete=models.SET_NULL)
+    parent_category = models.ForeignKey('self', verbose_name="父级分类", blank=True, null=True,
+                                        on_delete=models.SET_NULL)
 
     class Meta:
         ordering = ['-is_top', 'name']
@@ -40,6 +39,7 @@ class Category(BaseModel):
             category_list.append(category)
             if category.parent_category:
                 parse(category.parent_category)
+
         parse(self)
         return category_list
 
@@ -60,7 +60,8 @@ class Category(BaseModel):
 class Tag(BaseModel):
     tag_color_validator = TagColorValidator()
     name = models.CharField('名称', unique=True, max_length=30)
-    color = models.CharField('颜色', max_length=10, default=None, blank=True, null=True, validators=[tag_color_validator])
+    color = models.CharField('颜色', max_length=10, default=None, blank=True, null=True,
+                             validators=[tag_color_validator])
 
     class Meta:
         verbose_name = '标签'
@@ -106,7 +107,8 @@ class Article(BaseModel):
         }), tree))
 
     def get_next_article(self):
-        next_article = Article.objects.filter(publish_time__gt=self.publish_time, status=True).order_by('publish_time').first()
+        next_article = Article.objects.filter(publish_time__gt=self.publish_time, status=True).order_by(
+            'publish_time').first()
         return {
             'url': next_article.get_absolute_url(),
             'title': next_article.title

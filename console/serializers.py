@@ -1,12 +1,14 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 from rest_framework import serializers
+
+from blog.models import Category
 from .models import Menu
 
 
 class MenuSerializer(serializers.ModelSerializer):
     children = serializers.SerializerMethodField(read_only=True)
-    parent_menu = serializers.IntegerField(source='parent_menu_id', write_only=True)
+    parent_menu = serializers.IntegerField(source='parent_menu_id', write_only=True, required=False)
 
     @staticmethod
     def get_children(obj):
@@ -17,3 +19,25 @@ class MenuSerializer(serializers.ModelSerializer):
     class Meta:
         model = Menu
         fields = ('id', 'name', 'path',  'parent_menu', 'children')
+
+
+class CategorySerializer(serializers.ModelSerializer):
+    children = serializers.SerializerMethodField(read_only=True)
+    path = serializers.CharField(source='get_category_path', read_only=True)
+
+    @staticmethod
+    def get_path(obj):
+        return obj.get_category_path()
+
+    @staticmethod
+    def get_children(obj):
+        queryset = Category.objects.filter(parent_category_id=obj.id)
+        if queryset.count() == 0:
+            return None
+        serializer = CategorySerializer(queryset, many=True, read_only=True)
+        return serializer.data
+
+    class Meta:
+        model = Category
+        ref_name = 'ConsoleCategory'
+        fields = ('id', 'name', 'path', 'children')

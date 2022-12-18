@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'blog.apps.BlogConfig',
     'oauth.apps.OauthConfig',
     'console.apps.ConsoleConfig',
+    'common.apps.CommonConfig',
     'zhique_markdown'
 ]
 

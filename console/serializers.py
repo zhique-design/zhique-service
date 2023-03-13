@@ -24,6 +24,8 @@ class MenuSerializer(serializers.ModelSerializer):
 class CategorySerializer(serializers.ModelSerializer):
     children = serializers.SerializerMethodField(read_only=True)
     path = serializers.CharField(source='get_category_path', read_only=True)
+    parent = serializers.JSONField(source='get_parent_category', read_only=True)
+    parent_category = serializers.IntegerField(source='parent_category_id', write_only=True)
 
     @staticmethod
     def get_path(obj):
@@ -31,7 +33,7 @@ class CategorySerializer(serializers.ModelSerializer):
 
     @staticmethod
     def get_children(obj):
-        queryset = Category.objects.filter(parent_category_id=obj.id)
+        queryset = obj.get_children()
         if queryset.count() == 0:
             return None
         serializer = CategorySerializer(queryset, many=True, read_only=True)
@@ -40,4 +42,4 @@ class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         ref_name = 'ConsoleCategory'
-        fields = ('id', 'name', 'path', 'children')
+        fields = ('id', 'name', 'path', 'children', 'parent', 'parent_category')

@@ -10,24 +10,15 @@ from ZhiQue import permissions
 from ZhiQue import mixins
 from .filters import CategoryFilter, ArticleFilter
 from .serializers import CategorySerializer, ArticleListSerializer, ArticleDetailSerializer, \
-    TagSerializer, CategoryDetailSerializer
+    TagSerializer
 from .models import Category, Article, Tag
 
 
-class CategoryViewSet(mixins.ListModelMixin, mixins.CreateModelMixin, mixins.UpdateModelMixin,
-                      mixins.RetrieveModelMixin, mixins.DestroyModelMixin, viewsets.GenericViewSet):
+class CategoryViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     queryset = Category.objects.all()
     filter_class = CategoryFilter
-
-    def get_permissions(self):
-        if self.action in ('list', 'retrieve'):
-            return [permissions.AllowAny()]
-        return [permissions.IsAdminUser()]
-
-    def get_serializer_class(self):
-        if self.action in ('create', 'retrieve', 'update', 'partial_update'):
-            return CategoryDetailSerializer
-        return CategorySerializer
+    serializer_class = CategorySerializer
+    permission_classes = [permissions.AllowAny]
 
 
 class TagViewSet(mixins.ListModelMixin, mixins.CreateModelMixin, mixins.UpdateModelMixin, mixins.RetrieveModelMixin,

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from rest_framework import viewsets
 
-from ZhiQue import mixins
+from ZhiQue import mixins, permissions
 from blog.models import Category
 from .models import Menu
 from .serializers import MenuSerializer, CategorySerializer
@@ -19,9 +19,11 @@ class MenuViewSet(mixins.ListModelMixin, mixins.CreateModelMixin, mixins.UpdateM
         return self.queryset
 
 
-class CategoryViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
+class CategoryViewSet(mixins.ListModelMixin, mixins.CreateModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin,
+                      viewsets.GenericViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+    permission_classes = [permissions.IsAdminUser]
 
     def get_queryset(self):
         if self.action == 'list':

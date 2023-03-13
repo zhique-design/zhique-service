@@ -43,7 +43,7 @@ class Category(BaseModel):
         parse(self)
         return category_list
 
-    def get_sub_categories(self):
+    def get_children(self):
         return Category.objects.filter(parent_category__id=self.id)
 
     def get_category_level(self):
@@ -55,6 +55,14 @@ class Category(BaseModel):
             return level
 
         return parse(self, 1)
+
+    def get_parent_category(self):
+        if self.parent_category:
+            return {
+                'id': self.parent_category_id,
+                'name': self.parent_category.name
+            }
+        return None
 
 
 class Tag(BaseModel):

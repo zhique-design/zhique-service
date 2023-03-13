@@ -34,7 +34,9 @@ class CreateModelMixin(_mixins.CreateModelMixin):
 
 class DestroyModelMixin(_mixins.DestroyModelMixin):
     """销毁model实例"""
-    pass
+    def perform_destroy(self, instance):
+        instance.is_active = False
+        instance.save()
 
 
 class UpdateModelMixin(_mixins.UpdateModelMixin):
@@ -55,4 +57,5 @@ class RetrieveModelMixin(_mixins.RetrieveModelMixin):
 
 
 class ListModelMixin(_mixins.ListModelMixin):
-    pass
+    def filter_queryset(self, queryset):
+        return queryset.filter(is_active=True)

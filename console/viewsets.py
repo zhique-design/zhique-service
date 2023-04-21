@@ -20,12 +20,12 @@ class MenuViewSet(mixins.ListModelMixin, mixins.CreateModelMixin, mixins.UpdateM
 
 
 class CategoryViewSet(mixins.ListModelMixin, mixins.CreateModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin,
-                      viewsets.GenericViewSet):
+                      mixins.ViewSetMixin):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     permission_classes = [permissions.IsAdminUser]
 
     def get_queryset(self):
         if self.action == 'list':
-            return self.queryset.filter(parent_category__isnull=True)
-        return self.queryset
+            return super().get_queryset().filter(parent_category__isnull=True)
+        return super().get_queryset()

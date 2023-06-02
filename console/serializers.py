@@ -25,7 +25,7 @@ class CategorySerializer(serializers.ModelSerializer):
     children = serializers.SerializerMethodField(read_only=True)
     path = serializers.CharField(source='get_category_path', read_only=True)
     parent = serializers.JSONField(source='get_parent_category', read_only=True)
-    parent_category = serializers.IntegerField(source='parent_category_id', write_only=True)
+    parent_category = serializers.IntegerField(source='parent_category_id', write_only=True, required=False)
 
     @staticmethod
     def get_path(obj):

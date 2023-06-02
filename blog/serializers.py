@@ -102,7 +102,7 @@ class ArticleDetailSerializer(serializers.ModelSerializer):
     @staticmethod
     def get_breadcrumb(obj):
         tree = obj.get_category_tree()
-        return tree[::-1]
+        return tree[::-1] if tree is not None else None
 
     class Meta:
         model = Article

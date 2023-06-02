@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.db import models
+from uuslug import slugify
 
 # Create your models here.
 from ZhiQue.mixins import BaseModelMixin
@@ -10,6 +11,15 @@ User = get_user_model()
 
 class BaseModel(BaseModelMixin):
     is_top = models.BooleanField('置顶', default=False)
+    slug = models.SlugField(default=None)
+
+    def save(self, *args, **kwargs):
+        if self.slug is None:
+            slug = slugify(self.__str__())
+            if self.__class__.objects.filter(slug=slug).exclude(id=self.id).exists():
+                slug = f'{slug}-{self.id}'
+            self.slug = slug
+        super().save(*args, **kwargs)
 
     class Meta:
         abstract = True
@@ -29,7 +39,7 @@ class Category(BaseModel):
         return self.name
 
     def get_category_path(self):
-        return '/blog/category/{category_id}'.format(category_id=self.id)
+        return f'/blog/category/{self.slug}'
 
     def get_category_tree(self):
 
@@ -108,11 +118,12 @@ class Article(BaseModel):
         return '/blog/article/detail/{article_id}'.format(article_id=self.id)
 
     def get_category_tree(self):
-        tree = self.category.get_category_tree()
-        return list(map(lambda c: ({
-            'name': c.name,
-            'url': c.get_category_path()
-        }), tree))
+        if self.category is not None:
+            tree = self.category.get_category_tree()
+            return list(map(lambda c: ({
+                'name': c.name,
+                'url': c.get_category_path()
+            }), tree))
 
     def get_next_article(self):
         next_article = Article.objects.filter(publish_time__gt=self.publish_time, status=True).order_by(

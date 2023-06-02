@@ -2,6 +2,7 @@
 mysqlclient==2.1.1
 django==4.1.4
 django-redis==5.2.0
+django-uuslug
 
 # djangorestframework
 django-cors-headers==3.13.0

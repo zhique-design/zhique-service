@@ -58,13 +58,13 @@ class DataFormatMiddleware(MiddlewareMixin):
     @staticmethod
     def process_response(_, response):
         if hasattr(response, 'accepted_media_type') and response.accepted_media_type == 'application/json':
-            if response.status_code == 200:
-                try:
-                    if hasattr(response, 'data'):
-                        response_data = camel_dict(response.data)
-                        response.data = response_data
-                        response._is_rendered = False
-                        response.render()
-                except Exception as e:
-                    raise e
+            # if response.status_code == 200:
+            try:
+                if hasattr(response, 'data'):
+                    response_data = camel_dict(response.data)
+                    response.data = response_data
+                    response._is_rendered = False
+                    response.render()
+            except Exception as e:
+                raise e
         return response
